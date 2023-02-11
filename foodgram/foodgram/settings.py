@@ -129,7 +129,7 @@ STATIC_URL = '/static/'
 AUTH_USER_MODEL = 'users.User'
 
 REST_FRAMEWORK = {
-    'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
+    'DEFAULT_PAGINATION_CLASS': 'api.paginators.PageLimitPagination',
     'PAGE_SIZE': 6,
 
     'DEFAULT_PERMISSION_CLASSES': [
@@ -149,7 +149,7 @@ DJOSER = {
         'user': 'api.serializers.UserSerializer',
         'user_list': 'api.serializers.UserSerializer',
         'current_user': 'api.serializers.UserSerializer',
-        'user_create': 'api.serializers.UserRegisterSerializer',
+        #'user_create': 'api.serializers.UserRegisterSerializer',
     },
     'PERMISSIONS': {
         'user_list': ['rest_framework.permissions.AllowAny'],

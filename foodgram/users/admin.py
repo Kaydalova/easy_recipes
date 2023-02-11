@@ -6,6 +6,7 @@ from .models import Subscribe, User
 @admin.register(User)
 class UserAdmin(admin.ModelAdmin):
     list_display = (
+        'id',
         'username',
         'email',
         'first_name',
@@ -13,6 +14,7 @@ class UserAdmin(admin.ModelAdmin):
         'password',
     )
     list_filter = ('username',)
+
 
 @admin.register(Subscribe)
 class SubscribeAdmin(admin.ModelAdmin):

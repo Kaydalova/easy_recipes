@@ -45,6 +45,7 @@ class IngredientInRecipeAdmin(admin.ModelAdmin):
     )
     list_filter = ('ingredient',)
 
+
 @admin.register(Favorite)
 class Favorite(admin.ModelAdmin):
     list_display = (
@@ -52,6 +53,7 @@ class Favorite(admin.ModelAdmin):
         'recipe_lover',
     )
     list_filter = ('recipe_lover',)
+
 
 @admin.register(ShoppingCart)
 class ShoppingCart(admin.ModelAdmin):

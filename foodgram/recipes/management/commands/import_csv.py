@@ -1,9 +1,8 @@
 import csv
-import os
 
-from django.core.management.base import BaseCommand
+from django.conf import settings
+from django.core.management.base import BaseCommand, CommandError
 
-from foodgram.settings import BASE_DIR
 from recipes.models import Ingredient
 
 
@@ -11,15 +10,23 @@ class Command(BaseCommand):
     help = 'Import data from data/ingredients.csv'
 
     def handle(self, *args, **options):
-        #Загружаем ингредиенты
-        path = os.path.join(BASE_DIR, '/home/alexandra/Dev/foodgram-project-react/data', 'ingredients.csv')
-        with open(path, encoding='utf-8') as ing_file:
-            reader = csv.reader(ing_file, delimiter=',')
-            upload_list = []
-            for row in reader:
-                upload_list.append(
-                    Ingredient(
-                        name=row[0],
-                        measurement_unit=row[1]))
-            Ingredient.objects.bulk_create(upload_list)
-            print('Ингредиенты загружены успешно')
+        try:
+            with open(f'{settings.BASE_DIR}/data/ingredients.csv',
+                      'r', encoding='utf-8') as ing_file:
+                reader = csv.reader(ing_file, delimiter=',')
+                upload_list = []
+                for row in reader:
+                    name, measurement_unit = row
+                    upload_list.append(
+                        Ingredient(
+                            name=name,
+                            measurement_unit=measurement_unit))
+                Ingredient.objects.bulk_create(upload_list)
+                self.stdout.write(
+                    self.style.SUCCESS('Ингредиенты загружены успешно'))
+
+        except FileNotFoundError:
+            self.stdout.write(
+                self.style.ERROR('Упс, что-то пошло не так...'))
+            raise CommandError(
+                'В директории data отсутствует файл с ингредиентами')
