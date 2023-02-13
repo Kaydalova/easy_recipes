@@ -17,10 +17,11 @@ class Command(BaseCommand):
                 upload_list = []
                 for row in reader:
                     name, measurement_unit = row
-                    upload_list.append(
-                        Ingredient(
+                    newby = Ingredient(
                             name=name,
-                            measurement_unit=measurement_unit))
+                            measurement_unit=measurement_unit)
+                    if newby not in upload_list:
+                        upload_list.append(newby)
                 Ingredient.objects.bulk_create(upload_list)
                 self.stdout.write(
                     self.style.SUCCESS('Ингредиенты загружены успешно'))

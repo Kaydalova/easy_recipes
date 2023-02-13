@@ -2,10 +2,10 @@ from django.shortcuts import get_object_or_404
 from drf_extra_fields.fields import Base64ImageField
 from rest_framework import serializers
 
-from recipes.models import (Favorite, Ingredient, IngredientInRecipe, Recipe,
+from recipes.models import (Favorite, Ingredient,
+                            IngredientInRecipe, Recipe,
                             ShoppingCart, Tag)
 from users.models import Subscribe, User
-
 from .validators import (validate_cooking_time, validate_ingredients,
                          validate_tags)
 
@@ -130,7 +130,8 @@ class SubscribeSerializer(serializers.ModelSerializer):
             try:
                 recipes = recipes[:int(recipes_limit)]
             except ValueError:
-                pass
+                raise serializers.ValidationError({
+                    'errors': 'recipes_limit должен быть числом'})
         return RecipeToRepresentationSerializer(recipes, many=True).data
 
     def get_recipes_count(self, obj):

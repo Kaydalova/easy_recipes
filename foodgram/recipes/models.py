@@ -1,16 +1,22 @@
+from django.conf import settings
+from django.contrib.auth.validators import UnicodeUsernameValidator
 from django.core.validators import MinValueValidator
 from django.db import models
 
-from api.validators import validate_hex, validate_name
+from api.validators import validate_hex, validate_ingredient_name
 from users.models import User
 
 
 class Tag(models.Model):
     name = models.CharField(
-        verbose_name='Тэг', max_length=200, unique=True,
-        validators=[validate_name])
+        verbose_name='Тэг',
+        max_length=settings.TAG_MAX_LENGTH,
+        unique=True,
+        validators=[UnicodeUsernameValidator])
     slug = models.CharField(
-        verbose_name='Слаг', max_length=200, unique=True)
+        verbose_name='Слаг',
+        max_length=settings.TAG_MAX_LENGTH,
+        unique=True)
     color = models.CharField(
         verbose_name='Цвет', max_length=7,
         null=True, blank=True,
@@ -27,9 +33,12 @@ class Tag(models.Model):
 
 class Ingredient(models.Model):
     name = models.CharField(
-        verbose_name='Название', max_length=900)
+        verbose_name='Название',
+        max_length=settings.INGREDIENT_MAX_LENGTH,
+        validators=[validate_ingredient_name])
     measurement_unit = models.CharField(
-        verbose_name='Единицы измерения', max_length=900)
+        verbose_name='Единицы измерения',
+        max_length=settings.INGREDIENT_MAX_LENGTH)
 
     class Meta:
         verbose_name = 'Ингредиент'
@@ -77,12 +86,13 @@ class Recipe(models.Model):
 class IngredientInRecipe(models.Model):
     ingredient = models.ForeignKey(
         Ingredient, on_delete=models.CASCADE,
-        verbose_name='Ингредиент')
+        verbose_name='Ингредиент',
+        related_name='+')
     recipe = models.ForeignKey(
         Recipe, on_delete=models.CASCADE,
         related_name='ingredients',
         verbose_name='Рецепт')
-    amount = models.IntegerField(
+    amount = models.PositiveSmallIntegerField(
         verbose_name='Количество в рецепте',
         validators=[MinValueValidator(1, 'Должно быть больше 0')])
 
@@ -97,7 +107,8 @@ class IngredientInRecipe(models.Model):
 class Favorite(models.Model):
     recipe = models.ForeignKey(
         Recipe, on_delete=models.CASCADE,
-        verbose_name='Рецепт')
+        verbose_name='Рецепт',
+        related_name='+')
     recipe_lover = models.ForeignKey(
         User, on_delete=models.CASCADE,
         verbose_name='Добавил в избранное',
@@ -115,7 +126,8 @@ class ShoppingCart(models.Model):
         related_name='shopping_cart')
     recipe = models.ForeignKey(
         Recipe, on_delete=models.CASCADE,
-        verbose_name='Рецепт')
+        verbose_name='Рецепт',
+        related_name='+')
 
     def __str__(self):
         return self.recipe.name

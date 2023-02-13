@@ -1,22 +1,26 @@
+# from api.constant import EMAIL_MAX_LENGTH, USER_MAX_LENGTH
+from django.conf import settings
 from django.contrib.auth.models import AbstractUser
+from django.contrib.auth.validators import UnicodeUsernameValidator
 from django.db import models
 
-from api.constant import EMAIL_MAX_LENGTH, USER_MAX_LENGTH
-from api.validators import validate_username
+from api.validators import validate_real_name, validate_username
 
 
 class User(AbstractUser):
     username = models.CharField(
-        'Логин', max_length=USER_MAX_LENGTH, unique=True,
-        validators=[validate_username])
+        'Логин', max_length=settings.USER_MAX_LENGTH, unique=True,
+        validators=[UnicodeUsernameValidator, validate_username])
     first_name = models.CharField(
-        'Имя', max_length=USER_MAX_LENGTH, blank=False)
+        'Имя', max_length=settings.USER_MAX_LENGTH,
+        validators=[validate_real_name], blank=False)
     last_name = models.CharField(
-        'Фамилия', max_length=USER_MAX_LENGTH)
+        'Фамилия', max_length=settings.USER_MAX_LENGTH,
+        validators=[validate_real_name], blank=False)
     password = models.CharField(
-        'Пароль', max_length=USER_MAX_LENGTH)
+        'Пароль', max_length=settings.USER_MAX_LENGTH)
     email = models.EmailField(
-        'Email', max_length=EMAIL_MAX_LENGTH, unique=True)
+        'Email', max_length=settings.EMAIL_MAX_LENGTH, unique=True)
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = ['username', 'first_name', 'last_name']
 

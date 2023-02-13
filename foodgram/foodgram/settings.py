@@ -149,7 +149,6 @@ DJOSER = {
         'user': 'api.serializers.UserSerializer',
         'user_list': 'api.serializers.UserSerializer',
         'current_user': 'api.serializers.UserSerializer',
-        #'user_create': 'api.serializers.UserRegisterSerializer',
     },
     'PERMISSIONS': {
         'user_list': ['rest_framework.permissions.AllowAny'],
@@ -159,3 +158,8 @@ DJOSER = {
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+
+USER_MAX_LENGTH = 150
+EMAIL_MAX_LENGTH = 254
+TAG_MAX_LENGTH = 200
+INGREDIENT_MAX_LENGTH = 900

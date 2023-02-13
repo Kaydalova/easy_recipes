@@ -49,21 +49,25 @@ def validate_cooking_time(value):
     Метод проверяет корректно ли указанное времени приготовления.
     Если нет - выбрасывает ValidationError.
     """
-    if not value or int(value) <= 0:
+    if not value or int(value) < 1:
         raise ValidationError({
             'cooking_time': 'Укажите время приготовления'})
 
 
-def validate_name(value):
+def validate_ingredient_name(value):
     """
-    Метод проверяет соответствует ли переданное имя
+    Метод проверяет соответствует ли название ингредиента
     заданному регулярному выражению.
+    Название может содержать %,-"«»&() и
+    русские и английские буквы.
     Если нет - выбрасывает ValidationError.
     """
-    eng = r'^[\w.@+-]+\Z'
-    if not re.fullmatch(eng, value):
-        raise ValidationError({
-            'Недопустимое значение имени'})
+    reg = r'^[\w%,"\'«»&()]+\Z'
+    listik = value.split()
+    for item in listik:
+        if not re.fullmatch(reg, item):
+            raise ValidationError({
+                'Недопустимое значение имени {item}'})
 
 
 def validate_hex(value):
@@ -72,7 +76,7 @@ def validate_hex(value):
     возможному
     Если нет - выбрасывает ValidationError.
     """
-    regex = "^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$"
+    regex = "^#([A-Fa-f0-9]{3,6})$"
     hehex = re.compile(regex)
     if not re.search(hehex, value):
         raise ValidationError({
@@ -84,11 +88,19 @@ def validate_username(value):
     Метод проверяет соответствует username ожиданиям.
     Если нет - выбрасывает ValidationError.
     """
-    if value == 'me':
+    if value.lower() == 'me':
         raise ValidationError({
-            'Username не может быть me'})
+            f'Username не может быть {value}'})
 
-    eng = r'^[\w.@+-]+\Z'
-    if not re.fullmatch(eng, value):
+
+def validate_real_name(value):
+    """
+    Метод проверяет соответствует ли имя и фамилия
+    пользователя заданному регулярному выражению.
+    Если нет - выбрасывает ValidationError.
+    """
+    reg = r'^[\w-]+\Z'
+
+    if not re.fullmatch(reg, value):
         raise ValidationError({
-            'Недопустимое значение username'})
+            'Недопустимое значение имени {value}'})
