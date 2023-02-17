@@ -30,4 +30,4 @@ class Command(BaseCommand):
             self.stdout.write(
                 self.style.ERROR('Упс, что-то пошло не так...'))
             raise CommandError(
-                'В директории data отсутствует файл с ингредиентами')
+                f'В директории отсутствует файл с ингредиентами {settings.BASE_DIR}/data/ingredients.csv')

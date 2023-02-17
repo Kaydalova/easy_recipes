@@ -27,7 +27,7 @@ def validate_ingredients(ingredients_list, val_model):
                 f'{ingredient_id}- дублирующийся ингредиент')
         unique_list.append(ingredient_id)
         ingredient_amount = ingredient.get('amount')
-        if ingredient_amount < 1:
+        if int(ingredient_amount) < 1:
             raise ValidationError(
                 f'Количество {ingredient} должно быть больше 1')
 

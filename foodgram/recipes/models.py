@@ -1,6 +1,6 @@
 from django.conf import settings
 from django.contrib.auth.validators import UnicodeUsernameValidator
-from django.core.validators import MinValueValidator
+from django.core.validators import MaxValueValidator, MinValueValidator
 from django.db import models
 
 from api.validators import validate_hex, validate_ingredient_name
@@ -66,7 +66,9 @@ class Recipe(models.Model):
     cooking_time = models.PositiveSmallIntegerField(
         default=1, blank=False,
         verbose_name='Время приготовления',
-        validators=[MinValueValidator(1, 'Должно быть больше 0')])
+        validators=[
+            MinValueValidator(1, 'Должно быть больше 0'),
+            MaxValueValidator(600, 'Превышен лимит времени приготовления')])
     pub_date = models.DateTimeField(
         auto_now_add=True, verbose_name='Дата публикации')
 
@@ -94,7 +96,9 @@ class IngredientInRecipe(models.Model):
         verbose_name='Рецепт')
     amount = models.PositiveSmallIntegerField(
         verbose_name='Количество в рецепте',
-        validators=[MinValueValidator(1, 'Должно быть больше 0')])
+        validators=[
+            MinValueValidator(1, 'Должно быть больше 0'),
+            MaxValueValidator(2000, 'Максимальное количество - 2000')])
 
     def __str__(self):
         return self.recipe.name

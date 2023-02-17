@@ -1,4 +1,3 @@
-# from api.constant import EMAIL_MAX_LENGTH, USER_MAX_LENGTH
 from django.conf import settings
 from django.contrib.auth.models import AbstractUser
 from django.contrib.auth.validators import UnicodeUsernameValidator
@@ -40,7 +39,7 @@ class Subscribe(models.Model):
         User, on_delete=models.CASCADE, related_name='author')
 
     class Meta:
-        ordering = ('id',)
+        ordering = ('-author_id',)
         verbose_name = 'Подписки'
         verbose_name_plural = 'Подписки'
         constraints = [
@@ -50,3 +49,6 @@ class Subscribe(models.Model):
                 check=~models.Q(author=models.F('user')),
                 name='not_subscribe_youerself'
             )]
+
+    def __str__(self):
+        return f'{self.user.username} подписан на {self.author.username}'

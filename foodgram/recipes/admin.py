@@ -14,8 +14,14 @@ class IngredientAdmin(admin.ModelAdmin):
     list_filter = ('name',)
 
 
+class RecipeIngredientInline(admin.TabularInline):
+    model = IngredientInRecipe
+    min_num = 1
+
+
 @admin.register(Recipe)
 class RecipeAdmin(admin.ModelAdmin):
+    inlines = (RecipeIngredientInline, )
     list_display = (
         'id',
         'name',
