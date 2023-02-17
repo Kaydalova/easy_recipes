@@ -80,8 +80,8 @@ jobs:
           key: ${{ secrets.SSH_KEY }}
           passphrase: ${{ secrets.PASSPHRASE }}
           script: |
-            sudo docker-compose stop
-            sudo docker-compose rm backend
+            sudo docker compose stop
+            sudo docker compose rm backend
             sudo docker pull ${{ secrets.DOCKER_USERNAME }}/foodgram
             rm .env
             touch .env
