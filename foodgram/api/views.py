@@ -91,11 +91,11 @@ class SubscribeAPIView(APIView):
             author=author, user=request.user)
         if subscription.exists():
             return Response(
-                    {'errors': 'Вы уже подписаны на этого автора'},
-                    status=status.HTTP_400_BAD_REQUEST)
+                {'errors': 'Вы уже подписаны на этого автора'},
+                status=status.HTTP_400_BAD_REQUEST)
         queryset = Subscribe.objects.create(author=author, user=request.user)
         serializer = SubscribeSerializer(
-                queryset, context={'request': request})
+            queryset, context={'request': request})
         return Response(serializer.data, status=status.HTTP_201_CREATED)
 
     def delete(self, request, author_id):
@@ -186,8 +186,8 @@ class DownloadShoppingCart(APIView):
             cart_owner=request.user).values('recipe_id')
         ingredients = IngredientInRecipe.objects.filter(
             recipe_id__in=rec_pk).values(
-             'ingredient__name', 'ingredient__measurement_unit').annotate(
-                 amount=Sum('amount')).order_by()
+                'ingredient__name', 'ingredient__measurement_unit').annotate(
+                    amount=Sum('amount')).order_by()
 
         text = 'Список покупок:\n\n'
         for item in ingredients:

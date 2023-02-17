@@ -18,8 +18,8 @@ class Command(BaseCommand):
                 for row in reader:
                     name, measurement_unit = row
                     newby = Ingredient(
-                            name=name,
-                            measurement_unit=measurement_unit)
+                        name=name,
+                        measurement_unit=measurement_unit)
                     if newby not in upload_list:
                         upload_list.append(newby)
                 Ingredient.objects.bulk_create(upload_list)
@@ -30,4 +30,4 @@ class Command(BaseCommand):
             self.stdout.write(
                 self.style.ERROR('Упс, что-то пошло не так...'))
             raise CommandError(
-                f'В директории отсутствует файл с ингредиентами {settings.BASE_DIR}/data/ingredients.csv')
+                f'В директории {settings.BASE_DIR}/data отсутствует файл')

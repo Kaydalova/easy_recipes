@@ -41,7 +41,7 @@ class FavoriteRecipeSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Favorite
-        fields = ('id', 'name',  'image', 'cooking_time')
+        fields = ('id', 'name', 'image', 'cooking_time')
         read_only_fields = ('id', 'name', 'image', 'cooking_time')
 
     def validate(self, data):
@@ -222,8 +222,7 @@ class RecipeSerializer(serializers.ModelSerializer):
             image=self.validated_data.pop('image'),
             text=self.validated_data.pop('text'),
             cooking_time=self.validated_data.pop('cooking_time'),
-            author=self.validated_data.pop('author'),
-            )
+            author=self.validated_data.pop('author'))
         new_recipe.tags.add(*tags)
         bulk_create_data = (
             IngredientInRecipe(
