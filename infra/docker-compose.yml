@@ -23,8 +23,8 @@ services:
       - ./.env
 
   backend:
-    # image: kaydalova/foodgram:v5.02.2023
-    build: ../foodgram
+    image: kaydalova/foodgram:latest
+    #build: ../foodgram
     restart: always
     # command: >
     #   bash -c "python manage.py migrate &&
