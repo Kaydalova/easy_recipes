@@ -26,8 +26,14 @@ class RecipeAdmin(admin.ModelAdmin):
         'id',
         'name',
         'author',
+        'favorite_count',
     )
     list_filter = ('name', 'author', 'tags',)
+
+    @staticmethod
+    def favorite_count(obj):
+        return Favorite.objects.filter(recipe=obj).count()
+        # return obj.favorites.count()
 
 
 @admin.register(Tag)
@@ -41,15 +47,15 @@ class TagAdmin(admin.ModelAdmin):
     list_filter = ('name',)
 
 
-@admin.register(IngredientInRecipe)
-class IngredientInRecipeAdmin(admin.ModelAdmin):
-    list_display = (
-        'id',
-        'recipe',
-        'ingredient',
-        'amount',
-    )
-    list_filter = ('ingredient',)
+# @admin.register(IngredientInRecipe)
+# class IngredientInRecipeAdmin(admin.ModelAdmin):
+#     list_display = (
+#         'id',
+#         'recipe',
+#         'ingredient',
+#         'amount',
+#     )
+#     list_filter = ('ingredient',)
 
 
 @admin.register(Favorite)

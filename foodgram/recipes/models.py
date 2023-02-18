@@ -19,7 +19,6 @@ class Tag(models.Model):
         unique=True)
     color = models.CharField(
         verbose_name='Цвет', max_length=7,
-        null=True, blank=True,
         default='#C71585', unique=True,
         validators=[validate_hex])
 
@@ -53,7 +52,8 @@ class Recipe(models.Model):
         User, on_delete=models.CASCADE,
         verbose_name='Автор', related_name='recipe')
     name = models.CharField(
-        verbose_name='Название', max_length=200)
+        verbose_name='Название', max_length=200,
+        validators=[validate_ingredient_name])
     image = models.ImageField(
         upload_to='recipes/images/',
         null=True,
