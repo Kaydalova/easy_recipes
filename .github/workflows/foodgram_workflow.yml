@@ -85,8 +85,6 @@ jobs:
             sudo docker pull ${{ secrets.DOCKER_USERNAME }}/foodgram
             rm .env
             touch .env
-            # проверить надо ли сикрет ки?
-            # echo SECRET_KEY='${{ secrets.SECRET_KEY }}' >> .env  
             echo DB_ENGINE=${{ secrets.DB_ENGINE }} >> .env 
             echo DB_NAME=${{ secrets.DB_NAME }} >> .env 
             echo POSTGRES_USER=${{ secrets.POSTGRES_USER }} >> .env 
@@ -94,10 +92,9 @@ jobs:
             echo DB_HOST=${{ secrets.DB_HOST }} >> .env
             echo DB_PORT=${{ secrets.DB_PORT }} >> .env
             sudo docker compose up -d --build
-            sudo docker compose exec -T backend python manage.py makemigrations
-            sudo docker compose exec -T backend python manage.py migrate
-            sudo docker compose exec -T backend python manage.py import_csv
-            sudo docker compose exec -T backend python manage.py collectstatic --no-input
+            sudo docker compose exec backend python manage.py migrate
+            sudo docker compose exec backend python manage.py import_csv
+            sudo docker compose exec backend python manage.py collectstatic --no-input
             
   telegram_message:
     name: Send telegram message
