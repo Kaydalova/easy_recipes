@@ -290,10 +290,10 @@ class ShoppingCartSerializer(serializers.ModelSerializer):
         return data
 
     def to_representation(self, instance):
-        '''
+        """
         Метод принимает на вход объект сериализации
         и возвращает словарь с данными для отображения.
-        '''
+        """
         requset = self.context.get('request')
         return RecipeToRepresentationSerializer(
             instance.recipe,
