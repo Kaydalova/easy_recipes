@@ -1,6 +1,6 @@
-# Foodgram - Продуктовый помощник
+# Easy recipes- Продуктовый помощник
 
-![foodgram_workflow](https://github.com/kaydalova/foodgram-project-react/actions/workflows/foodgram_workflow.yml/badge.svg)
+![foodgram_workflow](https://github.com/kaydalova/easy_recipes/actions/workflows/foodgram_workflow.yml/badge.svg)
 
 ---
 
@@ -23,7 +23,7 @@
 
 * Склонировать репозиторий на локальную машину:
 ```bash
-git clone git@github.com:Kaydalova/foodgram-project-react.git
+git clone git@github.com:Kaydalova/easy_recipes.git
 cd foodgram-project-react
 ```
 
