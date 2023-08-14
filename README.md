@@ -1,4 +1,7 @@
-# Easy recipes- Продуктовый помощник
+<div align="center">
+ <img src="https://github.com/Kaydalova/easy_recipes/blob/master/Screenshot.png" alt="Logo"> 
+<h3 >Easy recipes- Продуктовый помощник</h3>
+</div>
 
 ![foodgram_workflow](https://github.com/kaydalova/easy_recipes/actions/workflows/foodgram_workflow.yml/badge.svg)
 
